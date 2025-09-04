@@ -15,7 +15,7 @@ if [ ! -d "/var/www/public/storage" ]; then
 fi
 
 # Jalankan migrate tanpa hapus data
-php artisan migrate --force
+php artisan migrate --force --seed
 echo "📦 Database migrated"
 
 # Jalankan perintah bawaan container (PHP-FPM + Nginx)
