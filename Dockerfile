@@ -22,6 +22,12 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
+# Clear cache agar .env terbaru terbaca
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan route:clear \
+    && php artisan view:clear
+
 # Copy nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
