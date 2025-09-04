@@ -2,25 +2,36 @@ FROM php:8.2-fpm
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip libpq-dev libonig-dev libxml2-dev zip curl \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath
+    git unzip libpq-dev libonig-dev libxml2-dev zip curl nginx \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy project
+# Set working directory
 WORKDIR /var/www
+
+# Copy project files
 COPY . .
 
 # Install dependencies Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permission untuk storage & bootstrap/cache
+# Set permissions
 RUN chmod -R 775 storage bootstrap/cache
+
+# Copy nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Expose port 8080 for Railway
+EXPOSE 8080
+
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm"]
+
+# Start nginx + php-fpm
+CMD service nginx start && php-fpm
