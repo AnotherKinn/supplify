@@ -2,9 +2,10 @@ FROM php:8.2-fpm
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip libpq-dev libonig-dev libxml2-dev zip curl nginx \
+    git unzip libpq-dev libonig-dev libxml2-dev zip curl nginx netcat-openbsd \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
