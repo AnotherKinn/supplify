@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath \
     && rm -rf /var/lib/apt/lists/*
 
-
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -16,11 +15,12 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-# Install dependencies Laravel
+# Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions
-RUN chmod -R 775 storage bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
@@ -29,10 +29,10 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Expose port 8080 for Railway
+# Expose port Nginx
 EXPOSE 8080
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Jalankan php-fpm + nginx bersama
+# Jalankan PHP-FPM + Nginx
 CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
