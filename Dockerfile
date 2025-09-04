@@ -33,5 +33,5 @@ EXPOSE 8080
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Start nginx + php-fpm
-CMD service nginx start && php-fpm
+# Jalankan php-fpm + nginx bersama
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
