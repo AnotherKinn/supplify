@@ -1,45 +1,17 @@
-<<<<<<< HEAD
 FROM php:8.4-fpm
+
 RUN apt-get update && apt-get install -y git unzip libpq-dev libonig-dev libxml2-dev zip curl \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-WORKDIR /var/www/html
-COPY . .
-RUN composer install --no-dev --optimize-autoloader
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-EXPOSE 8000
-CMD php artisan serve --host=0.0.0.0 --port=8000
-=======
-FROM php:8.4-fpm
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    git unzip libpq-dev libonig-dev libxml2-dev zip curl \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath
-
-# Copy Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
-
-# Copy project
 COPY . .
 
-# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Clear caches
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear
-
-# Fix permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 8000
-
-# Run app
 CMD php artisan serve --host=0.0.0.0 --port=8000
->>>>>>> b0a090826a820f8ff0e59237bdc26f961930a0e5
