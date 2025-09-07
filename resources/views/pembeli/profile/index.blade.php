@@ -7,7 +7,7 @@
 
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8">
+            <div class="bg-gray-100 dark:bg-gray-800 shadow-lg rounded-2xl p-8">
                 <!-- Header Profil -->
                 <div class="flex items-center gap-6 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
                     <div class="w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">

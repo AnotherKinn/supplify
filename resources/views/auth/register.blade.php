@@ -1,110 +1,79 @@
 <x-guest-layout>
-    <!-- Tambahkan AOS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-
     <div class="min-h-screen flex items-center justify-center px-4 py-8">
-        <div class="flex flex-col md:flex-row bg-[#1F2544] rounded-2xl shadow-2xl overflow-hidden w-full max-w-5xl min-h-[600px]">
+        <div
+            class="flex flex-col md:flex-row bg-[#1F2544] rounded-2xl shadow-2xl overflow-hidden w-full max-w-5xl min-h-[600px]">
 
-            <!-- Bagian Gambar -->
+            <!-- Bagian Gambar (hilang di mobile) -->
             <div class="md:w-1/2 hidden md:block">
-                <img
-                    src="{{ asset('image/login-image.jpg') }}"
-                    alt="Register Image"
+                <img src="{{ asset('image/login-image.jpg') }}" alt="Register Image"
                     class="object-cover h-full w-full" />
             </div>
 
             <!-- Bagian Form -->
-            <div class="md:w-1/2 w-full p-10 text-white flex flex-col justify-center">
-                <h2 class="text-2xl md:text-3xl font-bold mx-auto mb-8">Register Akun</h2>
+            <div class="md:w-1/2 w-full p-6 sm:p-10 text-white flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">Register Akun</h2>
 
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" class="space-y-4">
                     @csrf
 
                     <!-- Name -->
-                    <div class="mb-4">
-                        <x-text-input
-                            id="name"
-                            class="w-[400px] h-[55px] ml-4 px-4 py-3 rounded-lg bg-[#2F365E] text-white border-0 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            type="text"
-                            name="name"
-                            :value="old('name')"
-                            required
-                            autofocus
-                            placeholder="Nama" />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-400" />
+                    <div>
+                        <x-text-input id="name" type="text" name="name" :value="old('name')" required autofocus
+                            placeholder="Nama"
+                            class="w-full max-w-md mx-auto h-[50px] px-4 rounded-lg bg-[#2F365E] text-white border-0 focus:ring-2 focus:ring-yellow-400" />
+                        <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-400 text-center" />
                     </div>
 
                     <!-- Email -->
-                    <div class="mb-4">
-                        <x-text-input
-                            id="email"
-                            type="email"
-                            class="w-[400px] h-[55px] ml-4 px-4 py-3 rounded-lg bg-[#2F365E] text-white border-0 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            name="email"
-                            :value="old('email')"
-                            required
-                            placeholder="Email" />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400" />
+                    <div>
+                        <x-text-input id="email" type="email" name="email" :value="old('email')" required
+                            placeholder="Email"
+                            class="w-full max-w-md mx-auto h-[50px] px-4 rounded-lg bg-[#2F365E] text-white border-0 focus:ring-2 focus:ring-yellow-400" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400 text-center" />
                     </div>
 
                     <!-- Password -->
-                    <div class="mb-4 relative w-[400px] ml-4">
-                        <x-text-input
-                            id="password"
-                            class="w-full h-[55px] px-4 py-3 pr-12 rounded-lg bg-[#2F365E] text-white border-0 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            type="password"
-                            name="password"
-                            required
-                            placeholder="Password" />
-                        <button type="button"
-                            onclick="togglePassword('password', this)"
-                            class="absolute top-1/2 -translate-y-1/2 right-4 flex items-center text-gray-400 hover:text-yellow-400">
+                    <div class="relative w-full max-w-md mx-auto">
+                        <x-text-input id="password" type="password" name="password" required placeholder="Password"
+                            class="w-full h-[50px] px-4 pr-12 rounded-lg bg-[#2F365E] text-white border-0 focus:ring-2 focus:ring-yellow-400" />
+                        <button type="button" onclick="togglePassword('password', this)"
+                            class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-yellow-400">
                             <i class="fa-solid fa-eye-slash"></i>
                         </button>
-                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-400" />
+                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-400 text-center" />
                     </div>
 
                     <!-- Confirm Password -->
-                    <div class="mb-4 relative w-[400px] ml-4">
-                        <x-text-input
-                            id="password_confirmation"
-                            class="w-full h-[55px] px-4 py-3 pr-12 rounded-lg bg-[#2F365E] text-white border-0 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            type="password"
-                            name="password_confirmation"
-                            required
-                            placeholder="Konfirmasi Password" />
-                        <button type="button"
-                            onclick="togglePassword('password_confirmation', this)"
-                            class="absolute top-1/2 -translate-y-1/2 right-4 flex items-center text-gray-400 hover:text-yellow-400">
+                    <div class="relative w-full max-w-md mx-auto">
+                        <x-text-input id="password_confirmation" type="password" name="password_confirmation" required
+                            placeholder="Konfirmasi Password"
+                            class="w-full h-[50px] px-4 pr-12 rounded-lg bg-[#2F365E] text-white border-0 focus:ring-2 focus:ring-yellow-400" />
+                        <button type="button" onclick="togglePassword('password_confirmation', this)"
+                            class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-yellow-400">
                             <i class="fa-solid fa-eye-slash"></i>
                         </button>
-                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-400" />
+                        <x-input-error :messages="$errors->get('password_confirmation')"
+                            class="mt-2 text-red-400 text-center" />
                     </div>
 
-
-
-
                     <!-- Role -->
-                    <div class="mb-6">
-                        <select
-                            id="role"
-                            name="role"
-                            required
-                            class="w-[400px] h-[55px] ml-4 px-4 py-3 rounded-lg bg-[#2F365E] text-white border-0 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <div>
+                        <select id="role" name="role" required
+                            class="w-full max-w-md mx-auto h-[50px] px-4 rounded-lg bg-[#2F365E] text-white border-0 focus:ring-2 focus:ring-yellow-400">
                             <option value="">Pilih Role</option>
                             <option value="pembeli" {{ old('role') == 'pembeli' ? 'selected' : '' }}>Pembeli</option>
                             <option value="penjual" {{ old('role') == 'penjual' ? 'selected' : '' }}>Penjual</option>
                         </select>
-                        <x-input-error :messages="$errors->get('role')" class="mt-2 text-red-400" />
+                        <x-input-error :messages="$errors->get('role')" class="mt-2 text-red-400 text-center" />
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="mb-6">
-                        <button
-                            type="submit"
-                            class="w-[400px] h-[55px] ml-4 bg-[#FAE3AC] hover:bg-[#e2cd90] text-[#1F2544] font-bold py-3 rounded transition duration-300">
+                    <div>
+                        <button type="submit"
+                            class="w-full max-w-md mx-auto h-[50px] bg-[#FAE3AC] hover:bg-[#e2cd90] text-[#1F2544] font-bold rounded-lg transition duration-300">
                             Register
                         </button>
                     </div>
@@ -112,18 +81,14 @@
                     <!-- Login Link -->
                     <p class="text-sm text-center">
                         Sudah punya akun?
-                        <a href="{{ route('login') }}" class="text-yellow-400 hover:text-yellow-300">
-                            Login disini
-                        </a>
+                        <a href="{{ route('login') }}" class="text-yellow-400 hover:text-yellow-300">Login disini</a>
                     </p>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- Tambahkan AOS JS -->
-
 </x-guest-layout>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -139,6 +104,7 @@
     }).then(() => {
         window.location.href = "{{ route('login') }}";
     });
+
 </script>
 @endif
 
@@ -157,6 +123,7 @@
         confirmButtonColor: '#d33',
         confirmButtonText: 'Coba Lagi'
     });
+
 </script>
 @endif
 
@@ -176,4 +143,5 @@
             icon.classList.add("fa-eye-slash"); // mata tertutup
         }
     }
+
 </script>

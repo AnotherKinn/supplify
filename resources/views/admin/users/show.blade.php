@@ -7,9 +7,9 @@
 
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-[#FAE3AC] dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+            <div class="bg-[#FAE3AC] shadow-md rounded-lg overflow-hidden">
                 <div class="p-6">
-                    <table class="w-full border-collapse text-[#2D3250] dark:text-gray-100">
+                    <table class="w-full border-collapse text-black">
                         <tbody>
                             <tr class="border-b border-[#2D3250]/20">
                                 <th class="text-left py-3 px-4 w-1/4 font-medium">Nama</th>

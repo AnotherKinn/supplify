@@ -87,7 +87,7 @@
             </div>
             <div class="relative" data-aos="fade-left" data-aos-duration="1000">
                 <img src="{{ asset('image/hero-seller.jpg') }}" alt="Hero Image"
-                    class="rounded-lg shadow-lg w-full object-cover h-[350px] md:h-[450px]">
+                    class="hidden md:block lg:block rounded-lg shadow-lg w-full object-cover h-[350px] md:h-[450px]">
             </div>
         </div>
     </section>
@@ -97,11 +97,11 @@
     <div id="about" class="bg-[#1F2544] rounded-[10px] mt-8 p-6 md:p-8 mx-8 mb-8">
         <div class="flex flex-col justify-between md:flex-row items-center md:items-start gap-6">
             <div class="w-full md:w-1/2" data-aos="zoom-in" data-aos-duration="1200">
-                <img src="{{ asset('image/about-us.jpg') }}" alt="Tentang Kami"
-                    class="rounded-lg shadow-lg w-[400px] h-auto object-cover">
+                <img src="{{ asset('image/logo-putih.png') }}" alt="Tentang Kami"
+                    class="hidden md:block lg:block rounded-lg shadow-lg w-[400px] h-auto object-cover">
             </div>
-            <div class="w-full ml-[-20px] mt-7 md:text-4xl text-white" data-aos="fade-left" data-aos-duration="1200">
-                <h2 class="text-3xl font-bold mb-3">Tentang Kami</h2>
+            <div class="w-full ml-[-20px] md:ml-5 md:mt-7 md:text-4xl mt-[-20px] text-white" data-aos="fade-left" data-aos-duration="1200">
+                <h2 class="text-3xl font-bold mb-3">Tentang Supplify</h2>
                 <p class="text-gray-300 text-base leading-relaxed mb-4">
                     Suplify adalah platform inovatif yang hadir untuk mempermudah proses pemenuhan kebutuhan Anda dengan
                     cepat, aman, dan efisien.
@@ -156,47 +156,50 @@
 
     {{-- Contoh Kreasi Produk --}}
     <section class="bg-[#1F2544] rounded-[10px] p-6 md:p-8 mb-8 mx-8" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="text-white font-bold text-2xl md:text-3xl mb-10 text-center" data-aos="fade-down"
-            data-aos-duration="900">
-            Contoh Kreasi Produk
-        </h2>
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="mt-10">
 
-            {{-- Kulit sintetis jadi Sabuk --}}
-            <div class="bg-[#FAE3AC] rounded-lg p-6 flex flex-col items-center text-center" data-aos="fade-in"
-                data-aos-duration="1000">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Kulit sintetis</h3>
-                <div class="flex items-center gap-4">
-                    <img src="{{ asset('image/leather.jpg') }}" class="w-32 h-32 object-cover rounded-md">
-                    <span class="text-2xl font-bold">→</span>
-                    <img src="{{ asset('image/belts.jpg') }}" class="w-32 h-32 object-cover rounded-md">
+            <h2 class="text-white font-bold text-2xl md:text-3xl mb-10 text-center" data-aos="fade-down"
+                data-aos-duration="900">
+                Contoh Kreasi Produk
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {{-- Kulit sintetis jadi Sabuk --}}
+                <div class="bg-[#FAE3AC] rounded-lg p-6 flex flex-col items-center text-center" data-aos="fade-in"
+                    data-aos-duration="1000">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Kulit sintetis</h3>
+                    <div class="flex items-center gap-4">
+                        <img src="{{ asset('image/leather.jpg') }}" class="w-20 h-20 md:w-32 md:h-32 object-cover rounded-md">
+                        <span class="text-2xl font-bold">→</span>
+                        <img src="{{ asset('image/belts.jpg') }}" class="w-20 h-20 md:w-32 md:h-32 object-cover rounded-md">
+                    </div>
+                    <p class="mt-4 text-gray-700 leading-relaxed">
+                        Dari potongan <span class="font-semibold">kulit sintetis</span>, kita bisa membuat <span
+                            class="font-semibold">sabuk handmade</span>.
+                        Prosesnya tidak sulit, cukup dengan sedikit keterampilan menjahit dan alat sederhana.
+                        Hasil akhirnya kokoh, elegan, dan ramah lingkungan karena memanfaatkan bahan sisa yang biasanya
+                        terbuang.
+                    </p>
                 </div>
-                <p class="mt-4 text-gray-700 leading-relaxed">
-                    Dari potongan <span class="font-semibold">kulit sintetis</span>, kita bisa membuat <span
-                        class="font-semibold">sabuk handmade</span>.
-                    Prosesnya tidak sulit, cukup dengan sedikit keterampilan menjahit dan alat sederhana.
-                    Hasil akhirnya kokoh, elegan, dan ramah lingkungan karena memanfaatkan bahan sisa yang biasanya
-                    terbuang.
-                </p>
-            </div>
 
-            {{-- Benang jadi Boneka Rajut --}}
-            <div class="bg-[#FAE3AC] rounded-lg p-6 flex flex-col items-center text-center" data-aos="fade-in"
-                data-aos-duration="1000">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Benang wol</h3>
-                <div class="flex items-center gap-4">
-                    <img src="{{ asset('image/benang.png') }}" class="w-32 h-32 object-cover rounded-md">
-                    <span class="text-2xl font-bold">→</span>
-                    <img src="{{ asset('image/bebek.png') }}" class="w-32 h-32 object-cover rounded-md">
+                {{-- Benang jadi Boneka Rajut --}}
+                <div class="bg-[#FAE3AC] rounded-lg p-6 flex flex-col items-center text-center" data-aos="fade-in"
+                    data-aos-duration="1000">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Benang wol</h3>
+                    <div class="flex items-center gap-4">
+                        <img src="{{ asset('image/benang.png') }}" class="w-20 h-20 md:w-32 md:h-32 object-cover rounded-md">
+                        <span class="text-2xl font-bold">→</span>
+                        <img src="{{ asset('image/bebek.png') }}" class="w-20 h-20 md:w-32 md:h-32 object-cover rounded-md">
+                    </div>
+                    <p class="mt-4 text-gray-700 leading-relaxed">
+                        Dari sisa <span class="font-semibold">benang wol</span>, kita bisa mengolahnya menjadi <span
+                            class="font-semibold">boneka rajut (amigurumi)</span>.
+                        Membuatnya membutuhkan kesabaran, tapi tidak sulit untuk dipelajari dengan pola sederhana.
+                        Produk ini sangat diminati karena unik, lucu, dan bisa jadi hadiah spesial buatan tangan.
+                    </p>
                 </div>
-                <p class="mt-4 text-gray-700 leading-relaxed">
-                    Dari sisa <span class="font-semibold">benang wol</span>, kita bisa mengolahnya menjadi <span
-                        class="font-semibold">boneka rajut (amigurumi)</span>.
-                    Membuatnya membutuhkan kesabaran, tapi tidak sulit untuk dipelajari dengan pola sederhana.
-                    Produk ini sangat diminati karena unik, lucu, dan bisa jadi hadiah spesial buatan tangan.
-                </p>
-            </div>
 
+            </div>
         </div>
     </section>
 

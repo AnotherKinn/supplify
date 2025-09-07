@@ -1,3 +1,4 @@
+{{-- Produk Seller --}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-2xl font-bold text-white tracking-wide">
@@ -8,32 +9,31 @@
     <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
         <div class="bg-[#FAE3AC] shadow-lg rounded-lg p-6">
 
-            {{-- Search & Tambah Produk --}}
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-                <form action="{{ route('penjual.produk.index') }}" method="GET" class="flex items-center gap-2">
+            {{-- 🔍 Search & Tambah Produk --}}
+            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 mb-6">
+                <form action="{{ route('penjual.produk.index') }}" method="GET" class="flex flex-1 items-center gap-2">
                     <input type="text" name="search" placeholder="Cari produk..."
                         value="{{ old('search', $search ?? '') }}"
-                        class="px-4 py-2 rounded-lg bg-white text-[#2D3250]" />
+                        class="flex-1 px-4 py-2 rounded-lg bg-white text-[#2D3250] w-full sm:w-auto" />
                     <button type="submit"
-                        class="bg-[#ffffff] hover:bg-[#ffffff] text-[#FAE3AC] px-4 py-2 rounded-lg font-semibold transition">
+                        class="bg-[#ffffff] text-[#FAE3AC] px-4 py-2 rounded-lg font-semibold transition flex items-center justify-center">
                         <img src="{{ asset('image/icons/search.svg') }}" alt="search" class="w-5 h-5">
                     </button>
                 </form>
 
-
-
                 <a href="{{ route('penjual.produk.create') }}"
-                    class="bg-[#2D3250] hover:bg-[#1f233a] text-[#FAE3AC] px-5 py-2 rounded-lg font-semibold transition">
+                    class="bg-[#2D3250] hover:bg-[#1f233a] text-[#FAE3AC] px-5 py-2 rounded-lg font-semibold transition text-center">
                     + Tambah Produk
                 </a>
-
             </div>
 
-            {{-- Tabel Produk --}}
+            {{-- ❌ Jika kosong --}}
             @if($produks->isEmpty())
             <p class="text-[#2D3250]/70 italic text-center py-8">Kamu belum menambahkan produk.</p>
             @else
-            <div class="overflow-x-auto rounded-lg">
+
+            {{-- 🖥️ Desktop: Tabel --}}
+            <div class="hidden md:block overflow-x-auto rounded-lg">
                 <table class="min-w-full text-sm text-left border-collapse">
                     <thead class="bg-[#2D3250] text-[#FAE3AC] uppercase text-xs">
                         <tr>
@@ -50,33 +50,33 @@
                         <tr class="hover:bg-[#FAE3AC]/40 transition-colors">
                             <td class="px-4 py-3 text-[#2D3250]">{{ $index + 1 }}</td>
                             <td class="px-4 py-3 font-medium text-[#2D3250]">{{ $produk->nama_produk }}</td>
-                            <td class="px-4 py-3 text-[#2D3250]/80 max-w-xs truncate">
+                            <td class="px-4 py-3 text-[#2D3250]/80 max-w-[200px] truncate">
                                 {{ $produk->deskripsi }}
                             </td>
                             <td class="px-4 py-3">
                                 @if($produk->foto)
-                                <img src="{{ asset('storage/' . $produk->foto) }}" alt="Foto Produk"
+                                <img src="{{ asset('storage/' . $produk->foto) }}"
                                     class="w-20 h-20 object-cover rounded-lg border shadow-sm mx-auto">
                                 @else
                                 <span class="text-gray-400 italic">Belum ada</span>
                                 @endif
                             </td>
                             <td class="px-4 py-3 text-[#2D3250]">{{ $produk->stok }}</td>
-                            <td class="px-4 py-3 space-y-1">
+                            <td class="px-4 py-3 space-y-2 sm:space-y-0 sm:space-x-2 sm:flex sm:items-center">
                                 @if(in_array($produk->status, ['rejected', 'pending']))
                                 <a href="{{ route('penjual.produk.edit', $produk->id) }}"
-                                    class="bg-[#2D3250] hover:bg-[#1f233a] text-[#FAE3AC] px-3 mr-2 py-1 rounded-lg font-semibold transition">
+                                    class="bg-[#2D3250] hover:bg-[#1f233a] text-[#FAE3AC] px-3 py-1 rounded-lg font-semibold transition block text-center">
                                     Edit
                                 </a>
-                                <form action="{{ route('penjual.produk.destroy', $produk) }}" method="POST" class="inline delete-form">
+                                <form action="{{ route('penjual.produk.destroy', $produk) }}" method="POST"
+                                    class="inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button"
-                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-semibold transition delete-btn">
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-semibold transition w-full sm:w-auto delete-btn">
                                         Hapus
                                     </button>
                                 </form>
-
                                 @else
                                 <span class="text-gray-400 italic text-sm">Tidak tersedia</span>
                                 @endif
@@ -86,15 +86,57 @@
                     </tbody>
                 </table>
             </div>
+
+            {{-- 📱 Mobile: Cards --}}
+            <div class="grid grid-cols-1 gap-4 md:hidden">
+                @foreach($produks as $produk)
+                <div class="bg-white rounded-lg shadow-md p-4 border">
+                    {{-- Foto produk --}}
+                    @if($produk->foto)
+                    <img src="{{ asset('storage/' . $produk->foto) }}" class="w-full h-40 object-cover rounded-lg mb-3">
+                    @else
+                    <div class="w-full h-40 bg-gray-200 flex items-center justify-center rounded-lg mb-3 text-gray-400">
+                        Belum ada foto
+                    </div>
+                    @endif
+
+                    {{-- Detail produk --}}
+                    <h3 class="text-lg font-bold text-[#2D3250] mb-1">{{ $produk->nama_produk }}</h3>
+                    <p class="text-sm text-gray-600 mb-2">{{ Str::limit($produk->deskripsi, 100) }}</p>
+                    <p class="text-sm text-gray-800 font-semibold mb-2">Stok: {{ $produk->stok }}</p>
+
+                    {{-- Aksi --}}
+                    <div class="flex gap-2">
+                        @if(in_array($produk->status, ['rejected', 'pending']))
+                        <a href="{{ route('penjual.produk.edit', $produk->id) }}"
+                            class="flex-1 bg-[#2D3250] hover:bg-[#1f233a] text-[#FAE3AC] px-3 py-2 rounded-lg font-semibold text-center">
+                            Edit
+                        </a>
+                        <form action="{{ route('penjual.produk.destroy', $produk) }}" method="POST"
+                            class="delete-form flex-1">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button"
+                                class="w-full bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold delete-btn">
+                                Hapus
+                            </button>
+                        </form>
+                        @else
+                        <span class="text-gray-400 italic text-sm">Tidak tersedia</span>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
             @endif
 
-            <!-- 🔽 Pagination -->
+            {{-- 🔽 Pagination --}}
             <div class="mt-8">
                 {{ $produks->links('pagination::tailwind') }}
             </div>
         </div>
     </div>
-
     <style>
         @keyframes fadeIn {
             from {
@@ -111,14 +153,14 @@
         .animate-fadeIn {
             animation: fadeIn 0.4s ease-in-out;
         }
-    </style>
 
+    </style>
 </x-app-layout>
 
 
+
 {{-- Footer --}}
-<footer class="bg-[#FAE3AC] text-black"
-    data-aos="fade-up" data-aos-duration="1000">
+<footer class="bg-[#FAE3AC] text-black" data-aos="fade-up" data-aos-duration="1000">
     <div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
             <img src="{{ asset('image/logo-supplify.png') }}" class="h-[50px] w-auto">
@@ -141,7 +183,8 @@
                 </li>
                 <li class="flex items-center gap-2">
                     <img src="{{ asset('image/icons/instagram.svg') }}" class="w-5 h-5">
-                    <a href="https://www.instagram.com/supplify_project?igsh=MTR6a3VqZTgzZ21zYg==" target="_blank" class="hover:underline text-[#223A5E]">
+                    <a href="https://www.instagram.com/supplify_project?igsh=MTR6a3VqZTgzZ21zYg==" target="_blank"
+                        class="hover:underline text-[#223A5E]">
                         @supplify
                     </a>
                 </li>
@@ -154,8 +197,7 @@
             <p class="text-sm">Minggu & Libur Nasional: Tutup</p>
         </div>
     </div>
-    <div class="bg-[#1F2544] text-white text-center py-4"
-        data-aos="fade-in" data-aos-duration="1000">
+    <div class="bg-[#1F2544] text-white text-center py-4" data-aos="fade-in" data-aos-duration="1000">
         <p class="text-sm">© 2025 Supplify. All rights reserved.</p>
     </div>
 </footer>
@@ -164,7 +206,7 @@
 
 @if(session('success'))
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
@@ -173,12 +215,13 @@
             timer: 2000
         });
     });
+
 </script>
 @endif
 
 @if(session('error'))
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         Swal.fire({
             icon: 'error',
             title: 'Oops!',
@@ -186,6 +229,7 @@
             confirmButtonColor: '#d33',
         });
     });
+
 </script>
 @endif
 
@@ -196,7 +240,7 @@
 <script>
     // Konfirmasi sebelum hapus
     document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
             let form = this.closest('form');
 
@@ -216,4 +260,5 @@
             });
         });
     });
+
 </script>

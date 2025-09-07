@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen flex items-center justify-center dark:bg-gray-900 py-10 px-4">
+    <div class="min-h-screen flex items-center justify-center  py-10 px-4">
         <div class="bg-white shadow-lg rounded-2xl max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
 
             <!-- Left Content -->

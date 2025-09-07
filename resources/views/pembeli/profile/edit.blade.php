@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-10">
-        <div class="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+        <div class="max-w-5xl mx-auto bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <div class="grid grid-cols-1 md:grid-cols-2">
 
                 {{-- Bagian Kiri (Info Panel) --}}

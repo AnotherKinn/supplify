@@ -35,8 +35,12 @@ class CartController extends Controller
 
         $user = Auth::user();
 
-        return view('pembeli.cart.checkout', compact('cartItems', 'user'));
+        // Cek apakah biodata user lengkap
+        $biodataIncomplete = !$user->profile || !$user->profile->alamat || !$user->profile->no_hp;
+
+        return view('pembeli.cart.checkout', compact('cartItems', 'user', 'biodataIncomplete'));
     }
+
 
 
     public function store(Request $request)

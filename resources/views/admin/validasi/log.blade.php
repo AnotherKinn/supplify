@@ -1,14 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-2xl font-bold text-white tracking-wide">
-            Log Validasi Produk
+            Riwayat Validasi Produk
         </h2>
     </x-slot>
 
     <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
-
-
-
         <div class="bg-[#FAE3AC] shadow-lg rounded-xl p-6 border border-[#2D3250]">
 
             {{-- Filter --}}
@@ -24,6 +21,7 @@
                 </button>
             </form>
 
+            {{-- Alert --}}
             @if(session('success'))
             <div class="mb-4 text-[#2D3250] bg-green-100 p-3 rounded-lg shadow-sm flex items-center gap-2">
                 ✅ {{ session('success') }}
@@ -41,7 +39,9 @@
             @if($produk->isEmpty())
             <p class="text-[#2D3250]/70 italic">Belum ada produk yang divalidasi.</p>
             @else
-            <div class="overflow-x-auto rounded-lg border border-[#2D3250]/30">
+
+            {{-- ✅ Versi Desktop (Tabel) --}}
+            <div class="hidden sm:block overflow-x-auto rounded-lg border border-[#2D3250]/30">
                 <table class="min-w-full text-sm text-left border-collapse">
                     <thead class="bg-[#2D3250] text-[#FAE3AC] uppercase text-xs">
                         <tr>
@@ -81,13 +81,42 @@
                     </tbody>
                 </table>
             </div>
+
+            {{-- ✅ Versi Mobile (Card) --}}
+            <div class="grid grid-cols-1 gap-4 sm:hidden">
+                @foreach($produk as $item)
+                <div class="bg-white p-4 rounded-lg shadow-md border border-[#2D3250]/30">
+                    <h4 class="text-lg font-semibold text-[#2D3250] mb-2">
+                        {{ $item->nama_produk }}
+                    </h4>
+                    <p class="text-sm text-[#2D3250]/80 mb-1">
+                        <span class="font-medium">Status:</span>
+                        @if($item->status === 'approved')
+                        <span class="inline-block bg-[#FAE3AC] text-[#2D3250] px-2 py-1 rounded-md text-xs font-medium border border-[#2D3250]">
+                            ✔ Disetujui
+                        </span>
+                        @else
+                        <span class="inline-block bg-[#2D3250] text-[#FAE3AC] px-2 py-1 rounded-md text-xs font-medium border border-[#FAE3AC]">
+                            ✖ Ditolak
+                        </span>
+                        @endif
+                    </p>
+                    <p class="text-sm text-[#2D3250]/80 mb-1">
+                        <span class="font-medium">Lokasi:</span> {{ $item->lokasi }}
+                    </p>
+                    <p class="text-sm text-[#2D3250]/80">
+                        <span class="font-medium">Tanggal:</span> {{ $item->updated_at->format('d M Y - H:i') }}
+                    </p>
+                </div>
+                @endforeach
+            </div>
             @endif
+
             <!-- 🔽 Pagination -->
             <div class="mt-8">
                 {{ $produk->appends(request()->query())->links('pagination::tailwind') }}
             </div>
         </div>
-
     </div>
 
     <style>
@@ -96,13 +125,11 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
         .animate-fadeIn {
             animation: fadeIn 0.4s ease-in-out;
         }

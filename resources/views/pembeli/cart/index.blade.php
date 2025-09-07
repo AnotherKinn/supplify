@@ -6,51 +6,98 @@
                     <h2 class="text-2xl font-bold mb-6">Keranjang Belanja</h2>
 
                     @if ($cartItems->isEmpty())
-                    <p class="text-center text-gray-600 dark:text-gray-300">Keranjang kosong. Yuk, belanja dulu!</p>
+                        <p class="text-center text-gray-600 dark:text-gray-300">Keranjang kosong. Yuk, belanja dulu!</p>
                     @else
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-gray-300 dark:border-gray-600">
-                                <th class="p-3">Produk</th>
-                                <th class="p-3">Harga</th>
-                                <th class="p-3">Jumlah</th>
-                                <th class="p-3">Subtotal</th>
-                                <th class="p-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php $total = 0; @endphp
-                            @foreach ($cartItems as $item)
-                            @php $subtotal = $item->produk->harga * $item->qty; $total += $subtotal; @endphp
-                            <tr class="border-b border-gray-200 dark:border-gray-700">
-                                <td class="p-3 flex items-center gap-3">
-                                    <img src="{{ asset('storage/' . $item->produk->foto) }}" alt="{{ $item->produk->nama_produk }}" class="w-16 h-16 object-cover rounded">
-                                    {{ $item->produk->nama_produk }}
-                                </td>
-                                <td class="p-3">Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</td>
-                                <td class="p-3">{{ $item->qty }}</td>
-                                <td class="p-3">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
-                                <td class="p-3">
-                                    <form action="{{ route('pembeli.cart.destroy', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
 
-                    <div class="flex justify-between items-center mt-6">
-                        <p class="text-xl font-bold">Total: Rp {{ number_format($total, 0, ',', '.') }}</p>
-                        <form action="{{ route('pembeli.cart.checkout') }}" method="GET">
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
-                                Checkout Semua
-                            </button>
-                        </form>
+                        {{-- DESKTOP: Tabel --}}
+                        <div class="hidden md:block">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-300 dark:border-gray-600">
+                                        <th class="p-3">Produk</th>
+                                        <th class="p-3">Harga</th>
+                                        <th class="p-3">Jumlah</th>
+                                        <th class="p-3">Subtotal</th>
+                                        <th class="p-3"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $total = 0; @endphp
+                                    @foreach ($cartItems as $item)
+                                        @php 
+                                            $subtotal = $item->produk->harga * $item->qty; 
+                                            $total += $subtotal; 
+                                        @endphp
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <td class="p-3 flex items-center gap-3">
+                                                <img src="{{ asset('storage/' . $item->produk->foto) }}" 
+                                                     alt="{{ $item->produk->nama_produk }}" 
+                                                     class="w-16 h-16 object-cover rounded">
+                                                {{ $item->produk->nama_produk }}
+                                            </td>
+                                            <td class="p-3">Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</td>
+                                            <td class="p-3">{{ $item->qty }}</td>
+                                            <td class="p-3">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
+                                            <td class="p-3">
+                                                <form action="{{ route('pembeli.cart.destroy', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-500 hover:text-red-700">Hapus</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
 
-                    </div>
+                            <div class="flex justify-between items-center mt-6">
+                                <p class="text-xl font-bold">Total: Rp {{ number_format($total, 0, ',', '.') }}</p>
+                                <form action="{{ route('pembeli.cart.checkout') }}" method="GET">
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                        Checkout Semua
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        {{-- MOBILE: Card --}}
+                        <div class="block md:hidden">
+                            <div class="space-y-4">
+                                @php $totalMobile = 0; @endphp
+                                @foreach ($cartItems as $item)
+                                    @php 
+                                        $subtotal = $item->produk->harga * $item->qty; 
+                                        $totalMobile += $subtotal; 
+                                    @endphp
+                                    <div class="border rounded-lg p-4 flex gap-4 items-center shadow-sm">
+                                        <img src="{{ asset('storage/' . $item->produk->foto) }}" 
+                                             alt="{{ $item->produk->nama_produk }}" 
+                                             class="w-20 h-20 object-cover rounded">
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-lg">{{ $item->produk->nama_produk }}</h3>
+                                            <p class="text-white text-sm">Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</p>
+                                            <p class="text-white mt-1">Jumlah: {{ $item->qty }}</p>
+                                            <p class="font-bold mt-1">Subtotal: Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
+                                        </div>
+                                        <form action="{{ route('pembeli.cart.destroy', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-700 text-sm">Hapus</button>
+                                        </form>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="flex justify-between items-center mt-6 border-t pt-4">
+                                <p class="text-lg font-bold">Total: Rp {{ number_format($totalMobile, 0, ',', '.') }}</p>
+                                <form action="{{ route('pembeli.cart.checkout') }}" method="GET">
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                                        Checkout Semua
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
                     @endif
                 </div>
             </div>

@@ -10,50 +10,93 @@
             @if ($transaksis->isEmpty())
             <p class="text-[#2D3250]/70 italic">Kamu belum melakukan pembelian apapun.</p>
             @else
-            <div class="overflow-x-auto rounded-lg border border-[#2D3250]/30">
-                <table class="min-w-full text-sm text-left border-collapse">
-                    <thead class="bg-[#2D3250] text-[#FAE3AC] uppercase text-xs">
-                        <tr>
-                            <th class="px-4 py-3">Produk</th>
-                            <th class="px-4 py-3">Total Item</th>
-                            <th class="px-4 py-3">Total Harga</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3">Tanggal</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                        @foreach ($transaksis as $transaksi)
-                        <tr class="hover:bg-[#FAE3AC]/40 transition-colors">
-                            <td class="px-4 py-3 text-[#2D3250]">
-                                @foreach ($transaksi->transaksis as $item)
-                                {{ $item->produk->nama_produk }}
-                                <span class="text-sm text-[#2D3250]/70">(x{{ $item->qty }})</span><br>
-                                @endforeach
-                            </td>
-                            <td class="px-4 py-3 text-[#2D3250]">
-                                {{ $transaksi->transaksis->sum('qty') }}
-                            </td>
-                            <td class="px-4 py-3 text-[#2D3250]">
-                                Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
-                            </td>
-                            <td class="px-4 py-3">
-                                @if($transaksi->status === 'done')
-                                <span class="inline-flex items-center gap-1 text-[#2D3250] bg-green-200 px-3 py-1 rounded-full text-xs font-medium border border-green-400">
-                                    ✔ Selesai
-                                </span>
-                                @else
-                                <span class="inline-flex items-center gap-1 text-[#2D3250] bg-yellow-200 px-3 py-1 rounded-full text-xs font-medium border border-yellow-400">
-                                    ⏳ Pending
-                                </span>
-                                @endif
-                            </td>
-                            <td class="px-4 py-3 text-[#2D3250]/80">
-                                {{ $transaksi->created_at->format('d M Y') }}
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            {{-- DESKTOP: Tabel --}}
+            <div class="hidden md:block">
+                <div class="overflow-x-auto rounded-lg border border-[#2D3250]/30">
+                    <table class="min-w-full text-sm text-left border-collapse">
+                        <thead class="bg-[#2D3250] text-[#FAE3AC] uppercase text-xs">
+                            <tr>
+                                <th class="px-4 py-3">Produk</th>
+                                <th class="px-4 py-3">Total Item</th>
+                                <th class="px-4 py-3">Total Harga</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3">Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            @foreach ($transaksis as $transaksi)
+                            <tr class="hover:bg-[#FAE3AC]/40 transition-colors">
+                                <td class="px-4 py-3 text-[#2D3250]">
+                                    @foreach ($transaksi->transaksis as $item)
+                                    {{ $item->produk->nama_produk }}
+                                    <span class="text-sm text-[#2D3250]/70">(x{{ $item->qty }})</span><br>
+                                    @endforeach
+                                </td>
+                                <td class="px-4 py-3 text-[#2D3250]">
+                                    {{ $transaksi->transaksis->sum('qty') }}
+                                </td>
+                                <td class="px-4 py-3 text-[#2D3250]">
+                                    Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    @if($transaksi->status === 'done')
+                                    <span
+                                        class="inline-flex items-center gap-1 text-[#2D3250] bg-green-200 px-3 py-1 rounded-full text-xs font-medium border border-green-400">
+                                        ✔ Selesai
+                                    </span>
+                                    @else
+                                    <span
+                                        class="inline-flex items-center gap-1 text-[#2D3250] bg-yellow-200 px-3 py-1 rounded-full text-xs font-medium border border-yellow-400">
+                                        ⏳ Pending
+                                    </span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-[#2D3250]/80">
+                                    {{ $transaksi->created_at->format('d M Y') }}
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- MOBILE: Card --}}
+            <div class="block md:hidden space-y-4">
+                @foreach ($transaksis as $transaksi)
+                <div class="bg-white border border-[#2D3250]/30 rounded-lg shadow-sm p-4">
+                    <div class="mb-3">
+                        <h3 class="font-bold text-[#2D3250]">Produk:</h3>
+                        <ul class="text-sm text-[#2D3250]/90">
+                            @foreach ($transaksi->transaksis as $item)
+                            <li>{{ $item->produk->nama_produk }}
+                                <span class="text-xs text-[#2D3250]/70">(x{{ $item->qty }})</span>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <p class="text-sm text-[#2D3250]"><span class="font-semibold">Total Item:</span>
+                        {{ $transaksi->transaksis->sum('qty') }}</p>
+                    <p class="text-sm text-[#2D3250]"><span class="font-semibold">Total Harga:</span> Rp
+                        {{ number_format($transaksi->total_harga, 0, ',', '.') }}</p>
+                    <p class="text-sm text-[#2D3250] flex items-center gap-2">
+                        <span class="font-semibold">Status:</span>
+                        @if($transaksi->status === 'done')
+                        <span
+                            class="inline-flex items-center gap-1 text-[#2D3250] bg-green-200 px-2 py-0.5 rounded-full text-xs font-medium border border-green-400">
+                            ✔ Selesai
+                        </span>
+                        @else
+                        <span
+                            class="inline-flex items-center gap-1 text-[#2D3250] bg-yellow-200 px-2 py-0.5 rounded-full text-xs font-medium border border-yellow-400">
+                            ⏳ Pending
+                        </span>
+                        @endif
+                    </p>
+                    <p class="text-sm text-[#2D3250]/80"><span class="font-semibold">Tanggal:</span>
+                        {{ $transaksi->created_at->format('d M Y') }}</p>
+                </div>
+                @endforeach
             </div>
             @endif
         </div>
@@ -80,12 +123,13 @@
         .animate-fadeIn {
             animation: fadeIn 0.4s ease-in-out;
         }
+
     </style>
 </x-app-layout>
 
+
 {{-- Footer --}}
-<footer class="bg-[#FAE3AC] text-black"
-    data-aos="fade-up" data-aos-duration="1000">
+<footer class="bg-[#FAE3AC] text-black" data-aos="fade-up" data-aos-duration="1000">
     <div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
             <img src="{{ asset('image/logo-supplify.png') }}" class="h-[50px] w-auto">
@@ -108,7 +152,8 @@
                 </li>
                 <li class="flex items-center gap-2">
                     <img src="{{ asset('image/icons/instagram.svg') }}" class="w-5 h-5">
-                    <a href="https://www.instagram.com/supplify_project?igsh=MTR6a3VqZTgzZ21zYg==" target="_blank" class="hover:underline text-[#223A5E]">
+                    <a href="https://www.instagram.com/supplify_project?igsh=MTR6a3VqZTgzZ21zYg==" target="_blank"
+                        class="hover:underline text-[#223A5E]">
                         @supplify
                     </a>
                 </li>
@@ -121,8 +166,7 @@
             <p class="text-sm">Minggu & Libur Nasional: Tutup</p>
         </div>
     </div>
-    <div class="bg-[#1F2544] text-white text-center py-4"
-        data-aos="fade-in" data-aos-duration="1000">
+    <div class="bg-[#1F2544] text-white text-center py-4" data-aos="fade-in" data-aos-duration="1000">
         <p class="text-sm">© 2025 Supplify. All rights reserved.</p>
     </div>
 </footer>
@@ -140,6 +184,7 @@
         showConfirmButton: false,
         timer: 1500
     });
+
 </script>
 @endif
 
@@ -151,5 +196,6 @@
         text: "{{ session('error') }}",
         showConfirmButton: true
     });
+
 </script>
 @endif

@@ -20,22 +20,22 @@
             <!-- Bagian Kanan (Detail Produk) -->
             <div class="md:w-1/2 flex flex-col justify-between">
                 <div>
-                    <h3 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100 mb-6 tracking-wide">
+                    <h3 class="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-800 dark:text-gray-100 mb-6 tracking-wide">
                         {{ $produk->nama_produk }}
                     </h3>
 
                     <!-- Deskripsi Produk -->
                     <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md">
-                        <h4 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">Deskripsi Produk</h4>
-                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                        <h4 class="text-sm lg:text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">Deskripsi Produk</h4>
+                        <p class="text-gray-700 text-sm lg:text-xl dark:text-gray-300 leading-relaxed">
                             {{ $produk->deskripsi ?? 'Tidak ada deskripsi.' }}
                         </p>
                     </div>
 
                     <!-- Informasi Penjual -->
                     <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md mt-8">
-                        <h4 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">Informasi Penjual</h4>
-                        <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                        <h4 class="text-sm lg:text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">Informasi Penjual</h4>
+                        <ul class="space-y-2 text-gray-700 text-sm lg:text-xl dark:text-gray-300">
                             <li><span class="font-semibold">Nama:</span> {{ $produk->penjual->name ?? '-' }}</li>
                             <li><span class="font-semibold">Email:</span> {{ $produk->penjual->email ?? '-' }}</li>
                             <li><span class="font-semibold">No HP:</span> {{ $produk->penjual->profile->no_hp ?? '-' }}</li>
@@ -51,7 +51,7 @@
                     <form action="{{ route('admin.validasi.approve', $produk->id) }}" method="POST">
                         @csrf
                         <button type="submit"
-                            class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                            class="text-sm lg:text-xl bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
                             Setujui
                         </button>
                     </form>
@@ -60,7 +60,7 @@
                     <form id="form-reject" action="{{ route('admin.validasi.reject', $produk->id) }}" method="POST">
                         @csrf
                         <button type="button" id="btn-reject"
-                            class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                            class="text-sm lg:text-xl bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
                             Tolak
                         </button>
                     </form>
