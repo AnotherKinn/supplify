@@ -75,7 +75,7 @@ php artisan serve
 ---
 
 ## 👨‍💻 Tim Developer – Kelompok 1
-- Aji Pamungkas       - Project Manager & Backend
+- Aji Pamungkas       - Project Manager & Fullstack
 - Dinara Maulida      - Designer
 - Faiz Akhrian Putra  - System Analyst
 - Kerina Indri Febriany - Front End
